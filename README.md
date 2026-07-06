@@ -1,1 +1,0 @@
-# fnd-whitelist-bot2
