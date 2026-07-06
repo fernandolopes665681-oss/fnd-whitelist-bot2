@@ -12,7 +12,7 @@ const client = new Client({
 });
 
 const ADMINS = [
-    "marcondesfernando725_91427",  // ← Coloca seu ID do Discord aqui!
+    "1398361839678783739",  // ← Coloca seu ID do Discord aqui!
 ];
 
 let whitelist = [];
