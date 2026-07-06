@@ -12,7 +12,7 @@ const client = new Client({
 });
 
 const ADMINS = [
-    "SEU_ID_AQUI",  // Coloca seu ID do Discord aqui
+    "SEU_ID_DISCORD_AQUI",  // ← Coloca seu ID do Discord aqui!
 ];
 
 let whitelist = [];
@@ -63,8 +63,22 @@ client.on('messageCreate', async (message) => {
         if (whitelist.length === 0) {
             return message.reply('📋 Nenhum usuário na whitelist.');
         }
-        message.reply(`📋 Whitelist:\n${whitelist.join('\n')}`);
+        let lista = '📋 **USUÁRIOS NA WHITELIST:**\n';
+        whitelist.forEach((user, index) => {
+            lista += `${index + 1}. ${user}\n`;
+        });
+        message.reply(lista);
     }
+
+    if (comando === '!ping') {
+        message.reply(`🏓 Pong! Latência: ${client.ws.ping}ms`);
+    }
+});
+
+// ✅ NOVO: Verificação se o bot tá online
+client.once('ready', () => {
+    console.log(`✅ Bot ${client.user.tag} está online!`);
+    console.log(`📋 ${client.guilds.cache.size} servidores conectados`);
 });
 
 app.get('/check', (req, res) => {
@@ -73,7 +87,17 @@ app.get('/check', (req, res) => {
     res.send(whitelist.includes(user) ? 'true' : 'false');
 });
 
+app.get('/list', (req, res) => {
+    res.json(whitelist);
+});
+
+app.get('/', (req, res) => {
+    res.send('🤖 FND Whitelist Bot está online!');
+});
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`API rodando na porta ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`API rodando na porta ${PORT}`);
+});
 
 client.login(process.env.TOKEN);
